@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -10,12 +10,8 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('emit/:message')
-  emitMessage(@Param('message') message): string {
-    return this.appService.emitMessage(message);
-  }
-  @Get('delete/:message')
-  deleteMessage(@Param('message') message): string {
-    return this.appService.deletePlace(message);
+  @Get('emit/:count')
+  emitMessage(@Param('count', ParseIntPipe) count: number): Promise<string> {
+    return this.appService.emitMessage(count);
   }
 }
